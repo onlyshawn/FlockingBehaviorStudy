@@ -1,0 +1,65 @@
+--output test  --robots  classname=DifferentialDriveRobot,
+	swarm_isListOfRobotsNeed=1,
+	swarm_listOfRobots=(
+		5,
+		8,
+		11,
+		16
+	),
+	sensors=(
+		OrientationRobotsAverageSensor_1=(
+			classname=OrientationRobotsAverageSensor,
+			range=0.25,
+			id=1
+		),
+		RobotSensor_2=(
+			classname=RobotSensor,
+			range=0.25,
+			numbersensors=4,
+			id=2
+		)
+	),
+	actuators=(
+		TwoWheelActuator_1=(
+			classname=TwoWheelActuator,
+			id=1
+		)
+	)  --controllers  classname=NeuralNetworkController,
+	network=(
+		classname=CTRNNMultilayer,
+		hiddennodes=10,
+		inputs=(
+			OrientationRobotsAverageNNInput=(
+				classname=evolutionaryrobotics.neuralnetworks.inputs.SensorNNInput,
+				id=1
+			),
+			RobotNNInput=(
+				classname=evolutionaryrobotics.neuralnetworks.inputs.SensorNNInput,
+				id=2
+			),
+			
+		),
+		outputs=(
+			TwoWheelNNOutput=(
+				classname=evolutionaryrobotics.neuralnetworks.outputs.TwoWheelNNOutput,
+				id=1
+			),
+			
+		)
+	)  
+--population
+ classname=MuLambdaPopulation,
+	generations=6000
+
+--environment  classname=EmptyEnviromentsWithFixPositions,
+	width=5,
+	height=5,
+	steps=3000
+
+--executor classname=taskexecutor.ParallelTaskExecutor
+
+--evolution classname=GenerationalEvolution
+
+--evaluation classname=ReynoldsLocally
+
+--random-seed 1
